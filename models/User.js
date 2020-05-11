@@ -13,9 +13,9 @@ const userSchema = new Schema(
             type: String,
             enum: ['WebDev', 'UX/UI', 'Data Analytics']
         },
-        imagePath: {
-            type: Object,
-        },
+        // imagePath: {
+        //     type: Object,
+        // },
     },
     {
         timestamps: true,

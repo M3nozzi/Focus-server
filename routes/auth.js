@@ -10,11 +10,8 @@ const multer = require('multer');
 const upload = multer({ dest: './images/' });
 
 authRoutes.post("/signup", (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const campus = req.body.campus;
-  const course = req.body.course;
-  const imagePath = req.body.imagePath;
+  const { username, password, campus, course} = req.body;
+
 
   if (!username || !password) {
     res.status(400).json({ message: "Provide username and password" });
@@ -48,7 +45,7 @@ authRoutes.post("/signup", (req, res, next) => {
       password: hashPass,
       campus: campus,
       course: course,
-      imagePath: imagePath
+      // imagePath: imagePath
     });
 
     aNewUser.save((err) => {
@@ -74,6 +71,7 @@ authRoutes.post("/signup", (req, res, next) => {
     });
   });
 });
+
 
 authRoutes.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, theUser, failureDetails) => {
@@ -104,20 +102,14 @@ authRoutes.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
+
+
 authRoutes.get("/logout", (req, res, next) => {
   // req.logout() is defined by passport
   req.logout();
   res.status(200).json({ message: "Log out success!" });
 });
 
-authRoutes.get("/loggedin", (req, res, next) => {
-  // req.isAuthenticated() is defined by passport
-  if (req.isAuthenticated()) {
-    res.status(200).json(req.user);
-    return;
-  }
-  res.status(403).json({ message: "Unauthorized" });
-});
 
 authRoutes.put('/edit', (req, res, next) => {
 
@@ -158,5 +150,14 @@ authRoutes.post('/upload', upload.single('imagePath'), (req, res) => {
         .catch(error => console.log(error));
 })
 
+
+authRoutes.get("/loggedin", (req, res, next) => {
+  // req.isAuthenticated() is defined by passport
+  if (req.isAuthenticated()) {
+    res.status(200).json(req.user);
+    return;
+  }
+  res.status(403).json({ message: "Unauthorized" });
+});
 
 module.exports = authRoutes;
