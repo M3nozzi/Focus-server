@@ -87,4 +87,6 @@ app.use('/', index);
 
 app.use("/api", require("./routes/auth"));
 
+app.use("/api", require("./routes/profileRoute"));
+
 module.exports = app;

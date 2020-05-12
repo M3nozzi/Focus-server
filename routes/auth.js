@@ -4,29 +4,31 @@ const authRoutes = express.Router();
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 
+const uploadCloud = require('../configs/cloudinary');
+
 const User = require("../models/User");
 
 const multer = require('multer');
-const upload = multer({ dest: './images/' });
+
 
 authRoutes.post("/signup", (req, res, next) => {
-  const { username, password, campus, course} = req.body;
+  const { email, password, name} = req.body;
 
 
-  if (!username || !password) {
+  if (!email || !password) {
     res.status(400).json({ message: "Provide username and password" });
     return;
   }
 
-  if (password.length < 3) {
+  if (password.length < 6) {
     res.status(400).json({
       message:
-        "Please make your password at least 4 characters long for security purposes.",
+        "Please make your password at least 5 characters long for security purposes.",
     });
     return;
   }
 
-  User.findOne({ username }, (err, foundUser) => {
+  User.findOne({ email }, (err, foundUser) => {
     if (err) {
       res.status(500).json({ message: "Username check went bad." });
       return;
@@ -41,11 +43,11 @@ authRoutes.post("/signup", (req, res, next) => {
     const hashPass = bcrypt.hashSync(password, salt);
 
     const aNewUser = new User({
-      username: username,
+      email: email,
       password: hashPass,
-      campus: campus,
-      course: course,
-      // imagePath: imagePath
+      name: name,
+      path:process.env.DEFAULT_IMAGE,
+      
     });
 
     aNewUser.save((err) => {
@@ -108,35 +110,11 @@ authRoutes.get("/logout", (req, res, next) => {
   // req.logout() is defined by passport
   req.logout();
   res.status(200).json({ message: "Log out success!" });
+  res.redirect("/");
 });
 
 
-authRoutes.put('/edit', (req, res, next) => {
-
-    const {username, campus, course } = req.body;
-    // const loggedUser = req.user;
-    // loggedUser.username = username;
-    // loggedUser.campus = campus;
-    // loggedUser.course = course;
-        // loggerdUser.save()
-
-    const id = req.user._id;
-
-    User.findByIdAndUpdate( id, {
-        username: username,
-        campus: campus,
-        course: course
-    }, {new:true}
-    ).then( () => {
-        res.status(200).json({
-            message: 'User updated!'
-        })
-    })
-    .catch(error => console.log(error));
-    
-});
-
-authRoutes.post('/upload', upload.single('imagePath'), (req, res) => {
+/*authRoutes.post('/upload', uploadCloud.single('imagePath'), (req, res) => {
 
     const loggedUser = req.user;
     loggedUser.imagePath = req.file;
@@ -148,7 +126,7 @@ authRoutes.post('/upload', upload.single('imagePath'), (req, res) => {
             res.status(200).json(req.file);
         })
         .catch(error => console.log(error));
-})
+}) */
 
 
 authRoutes.get("/loggedin", (req, res, next) => {
@@ -159,5 +137,29 @@ authRoutes.get("/loggedin", (req, res, next) => {
   }
   res.status(403).json({ message: "Unauthorized" });
 });
+
+
+
+//SOCIAL LOGIN GOOGLE
+
+// one way out to google 
+authRoutes.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  })
+);
+
+// one way back from google
+authRoutes.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/places",
+    failureRedirect: "/login"
+  })
+);
 
 module.exports = authRoutes;

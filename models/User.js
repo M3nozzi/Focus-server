@@ -3,19 +3,12 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
     {
-        username: String,
+        name:String,
+        email: String,
         password: String,
-        campus: {
-            type: String,
-            enum: ['Madrid', 'Barcelona', 'Miami', 'Paris', 'Berlin', 'Amsterdam', 'Mexico', 'Sao Paulo', 'Lisbon']
-        },
-        course: {
-            type: String,
-            enum: ['WebDev', 'UX/UI', 'Data Analytics']
-        },
-        // imagePath: {
-        //     type: Object,
-        // },
+        googleID: String,
+        path: String,
+        follow: [],
     },
     {
         timestamps: true,
