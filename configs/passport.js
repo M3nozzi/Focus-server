@@ -3,6 +3,12 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt        = require('bcryptjs'); 
 const passport      = require('passport');
 
+
+
+// social login
+const GoogleStrategy = require("passport-google-oauth2").Strategy;
+
+
 passport.serializeUser((loggedInUser, cb) => {
   cb(null, loggedInUser._id);
 });
@@ -37,3 +43,42 @@ passport.use(new LocalStrategy((username, password, next) => {
     next(null, foundUser);
   });
 }));
+
+
+//GOOGLE
+
+passport.use(
+  new GoogleStrategy({
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/auth/google/callback"
+    },
+    (accessToken, refreshToken, profile, done) => {
+     
+      console.log("Google account details:", profile);
+      let name = profile.given_name + ' ' + profile.family_name
+      
+      User.findOne({
+          googleID: profile.id
+        })
+        .then(user => {
+          if (user) {
+            done(null, user);
+            return;
+          }
+
+          User.create({
+            name: name,
+            email: profile.email,
+            googleID: profile.id,
+            path: profile.picture,
+            })
+            .then(newUser => {
+              done(null, newUser);
+            })
+            .catch(err => done(err)); // closes User.create()
+        })
+        .catch(err => done(err)); // closes User.findOne()
+    }
+  )
+);
