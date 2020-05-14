@@ -59,7 +59,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
-  cookie: { maxAge: 60000 },
+  cookie: { maxAge: 600000 },
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
     ttl: 24 * 60 * 60, // 1 day
@@ -88,5 +88,8 @@ app.use('/', index);
 app.use("/api", require("./routes/auth"));
 
 app.use("/api", require("./routes/profileRoute"));
+app.use("/api", require("./routes/contentRoute"));
+app.use("/api", require("./routes/playlistRoute"));
+app.use("/api", require("./routes/videoRoute"));
 
 module.exports = app;

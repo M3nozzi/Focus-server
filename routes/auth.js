@@ -43,7 +43,7 @@ authRoutes.post("/signup", (req, res, next) => {
     const hashPass = bcrypt.hashSync(password, salt);
 
     const aNewUser = new User({
-      email: email,
+      username: email,
       password: hashPass,
       name: name,
       path:process.env.DEFAULT_IMAGE,
@@ -77,6 +77,7 @@ authRoutes.post("/signup", (req, res, next) => {
 
 authRoutes.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, theUser, failureDetails) => {
+    console.log(theUser)
     if (err) {
       res
         .status(500)
@@ -157,9 +158,12 @@ authRoutes.get(
 authRoutes.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    successRedirect: "/places",
-    failureRedirect: "/login"
-  })
+    failureRedirect: "/login", 
+    session: false }),
+    function(req,res) {
+      var token = req.user.token;
+      res.redirect('http://localhost:3000?token=' + token);
+    }
 );
 
 module.exports = authRoutes;
