@@ -22,42 +22,6 @@ profileRoute.get('/profile/:id', (req, res) => {
 
 profileRoute.put('/profile/:id', (req, res, next) => {
 
-    //const {name, path, password} = req.body;
-    // const loggedUser = req.user;
-    // loggedUser.username = username;
-    // loggedUser.campus = campus;
-    // loggedUser.course = course;
-        // loggerdUser.save()
-
-    //const id = req.user._id;
-
-   /* if (req.body.password) {
-
-        const password = req.body.password;
-        const salt = bcrypt.genSaltSync(bcryptSalt);
-        const hashPass = bcrypt.hashSync(password, salt);
-   
-    
-        const {
-            userId
-        } = req.params;
-      
-    User.findByIdAndUpdate({ _id: userId }, {
-                $set: {
-                    password:hashPass,
-             }
-      }, {
-            new: true
-      })
-      .then( () => {
-        res.status(200).json({
-            message: 'User updated!'
-        })
-    })
-    .catch(error => res.status(500).json(error));
-
-    } //closes if password */
-    console.log(req.body)
         if(req.body.password) {
         const salt = bcrypt.genSaltSync(bcryptSalt);
         const hashPass = bcrypt.hashSync(req.body.password, salt);
@@ -66,7 +30,7 @@ profileRoute.put('/profile/:id', (req, res, next) => {
             
             
         }
-    console.log(req.body)
+  
     
     User.findByIdAndUpdate( req.params.id, req.body, {new:true}
     ).then( () => {

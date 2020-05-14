@@ -3,10 +3,11 @@ const Schema = mongoose.Schema;
 
 const contentSchema = new Schema(
     {
-        nameContent:String,
-        iconContent: String,
-        bannerContent: String,
+        name:String,
+        icon: String,
+        banner: String,
         owner: { type: Schema.Types.ObjectId, ref: "User" },
+        playlist: [{type: Schema.Types.ObjectId, ref: "Playlist"}]
     },
     {
         timestamps: true,

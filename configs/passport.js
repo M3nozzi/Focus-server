@@ -69,9 +69,10 @@ passport.use(
 
           User.create({
             name: name,
-            email: profile.email,
+            username: profile.email,
             googleID: profile.id,
             path: profile.picture,
+            token:accessToken,
             })
             .then(newUser => {
               done(null, newUser);

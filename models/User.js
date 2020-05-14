@@ -4,12 +4,14 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema(
     {
         name:String,
-        email: String,
+        username: String,
         password: String,
         googleID: String,
         path: String,
-        follow: [],
+        follow: [{type: Schema.Types.ObjectId, ref:"Content"}],
     },
+   
+   
     {
         timestamps: true,
     }
