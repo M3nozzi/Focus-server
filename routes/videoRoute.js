@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const videoRoute = express.Router();
 const Playlist = require("../models/Playlist");
 const Content = require('../models/Content');
-const Video = require('../models//Videos');
+const Video = require('../models/Videos');
 
 
 videoRoute.get('/video/:id', (req, res, next) => {
@@ -101,3 +101,32 @@ module.exports = videoRoute;
 //         res.status(200).json({ success: true, video })
 //     })
 // });
+
+
+videoRoute.post("/getContentFollowed", (req, res) => {
+
+
+    //Need to find all of the Users that I am subscribing to From Subscriber Collection 
+
+    User.find({ 'userFrom': req.body.userFrom })
+        .exec((err, followers) => {
+            if (err) return res.status(400).send(err);
+
+            let followerUser = [];
+
+            followers.map((follower, i) => {
+                followerUser.push(follower.userTo)
+            })
+
+
+            //Need to Fetch all of the Videos that belong to the Users that I found in previous step. 
+            User.find({ follow: { $in: followerUser } })
+                .populate('follow')
+                .exec((err, contents) => {
+                    if (err) return res.status(400).send(err);
+                    res.status(200).json({ success: true, contents })
+                })
+            })
+});
+
+module.exports = videoRoute;

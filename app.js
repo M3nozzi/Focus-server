@@ -91,5 +91,6 @@ app.use("/api", require("./routes/profileRoute"));
 app.use("/api", require("./routes/contentRoute"));
 app.use("/api", require("./routes/playlistRoute"));
 app.use("/api", require("./routes/videoRoute"));
+app.use("/api", require("./routes/followerRoute"));
 
 module.exports = app;
