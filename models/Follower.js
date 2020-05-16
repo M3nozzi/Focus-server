@@ -8,10 +8,6 @@ const followerSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User'
         },
-        userFrom: {
-            type: Schema.Types.ObjectId, 
-            ref:'User'
-        },
         contentFrom: {
             type: Schema.Types.ObjectId,
             ref: 'Content'

@@ -48,8 +48,8 @@ profileRoute.put('/profile/:id', (req, res, next) => {
 profileRoute.get('/profile-delete/:id', (req, res) => {
   
     User.findByIdAndRemove(req.params.id).then(response => {
-      res.redirect('/');
-    }).catch(error => console.log(error));
+      res.json({message: "user Deleted"});
+    }).catch(error => res.status(500).json(error));
   });
 
 

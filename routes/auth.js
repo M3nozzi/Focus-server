@@ -139,8 +139,6 @@ authRoutes.get("/loggedin", (req, res, next) => {
   res.status(403).json({ message: "Unauthorized" });
 });
 
-
-
 //SOCIAL LOGIN GOOGLE
 
 // one way out to google 
