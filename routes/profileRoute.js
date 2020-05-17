@@ -33,10 +33,11 @@ profileRoute.put('/profile/:id', (req, res, next) => {
   
     
     User.findByIdAndUpdate( req.params.id, req.body, {new:true}
-    ).then( () => {
-        res.status(200).json({
-            message: 'User updated!'
-        })
+    ).then( (response) => {
+      res.json(response);
+        // res.status(200).json({
+        //     message: 'User updated!'
+        // })
     })
     .catch(error => res.status(500).json(error));
     
@@ -47,7 +48,7 @@ profileRoute.put('/profile/:id', (req, res, next) => {
 
 profileRoute.get('/profile-delete/:id', (req, res) => {
   
-    User.findByIdAndRemove(req.params.id).then(response => {
+    User.findByIdAndDelete(req.params.id).then(response => {
       res.json({message: "user Deleted"});
     }).catch(error => res.status(500).json(error));
   });
