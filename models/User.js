@@ -8,7 +8,7 @@ const userSchema = new Schema(
         password: String,
         googleID: String,
         path: String,
-        follow: [{type: Schema.Types.ObjectId, ref:"Content"}],
+        following: [{type: Schema.Types.ObjectId, ref:"Content"}],
     },
    
    

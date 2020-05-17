@@ -4,10 +4,12 @@ const contentRoute = express.Router();
 const Content = require("../models/Content");
 const uploader = require("../configs/cloudinary");
 
-contentRoute.get("/home", (req, res) => {
+contentRoute.get("/contents", (req, res, next) => {
 
-    Content.find()
+    Content
+        .find()
         .populate("playlist")
+        .populate("users")
         .sort({ createdAt: -1 })
         .then((content) => res.json(content))
         .catch((error) => res.status(500).json(error));
@@ -22,6 +24,7 @@ contentRoute.get("/contents/:id", (req, res, next) => {
     }
     Content.findById(req.params.id)
         .populate("playlist")
+        .populate("users")
         .then((response) => {
             res.status(200).json(response);
 
@@ -45,7 +48,8 @@ contentRoute.post("/contents", (req, res, next) => {
         icon: req.body.icon,
         banner: req.body.banner,
         playlist: [],
-        owner: req.user._id,
+        owner: req.user,
+        users: req.body.users
 
     })
         .then((response) => {
@@ -111,7 +115,5 @@ contentRoute.post("/contents-banner-upload", uploader.single("banner"), (req, re
       originalName: req.file.originalname,
     });
 });
-
-
 
 module.exports = contentRoute;

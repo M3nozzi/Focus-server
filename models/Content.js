@@ -7,7 +7,9 @@ const contentSchema = new Schema(
         icon: String,
         banner: String,
         owner: { type: Schema.Types.ObjectId, ref: "User" },
-        playlist: [{type: Schema.Types.ObjectId, ref: "Playlist"}]
+        playlist: [{type: Schema.Types.ObjectId, ref: "Playlist"}],
+        users: []
+
     },
     {
         timestamps: true,
