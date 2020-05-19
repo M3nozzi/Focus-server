@@ -4,10 +4,9 @@ const Schema = mongoose.Schema;
 const videosSchema = new Schema(
     {
         title:String,
-        iconUrl: String,
+        videoUrl: String,
         thumbnailUrl: String,
         description: String,
-        videoPath: String,
         playlist: { type: Schema.Types.ObjectId, ref: "Playlist" },
     },
     {

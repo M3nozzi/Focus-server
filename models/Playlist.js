@@ -5,8 +5,9 @@ const playlistSchema = new Schema(
     {
         name: String,
         playlistImage: String,
-        playlistUrl:String,
+        playlistUrl: String,
         owner: { type: Schema.Types.ObjectId, ref: "User" },
+        video: [{ type: Schema.Types.ObjectId, ref: "Videos" }],
         content: { type: Schema.Types.ObjectId, ref: "Content" },
     },
     {
