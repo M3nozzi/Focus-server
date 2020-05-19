@@ -6,13 +6,45 @@ const Content = require('../models/Content');
 const Video = require('../models/Videos');
 
 
-videoRoute.get('/video/:id', (req, res, next) => {
 
-    Video.findOne(req.params.id)
-        .then(theVideo => res.jason(theVideo))
+videoRoute.get('/videos/:id', (req, res, next) => {
+
+    Video.find({playlist: req.params.id})
+        .then(theVideo => res.json(theVideo))
         .catch((error) => res.status(500).json(error))
 })
 
+// POST route => to create a new playlist
+videoRoute.post("/videos", (req, res, next) => {
+
+    Video.create({
+        title: req.body.name,
+        videoUrl: req.body.videoUrl,
+        thumbnailUrl: req.body.thumbnailUrl,
+        description: req.body.description,
+        playlist: req.body.playlist,
+    })
+    .then((response) => {
+        console.log("---->", response)
+        //console.log("contentId", req.body.contentId)
+        
+        Playlist.findByIdAndUpdate( req.body.playlist, {
+            $push: { video: response._id },
+            },
+            { new: true }
+        )
+        .populate("video")
+        .then((theResponse) => {
+        res.json(theResponse);
+        })
+        .catch((err) => {
+        res.status(500).json(err);
+        });
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+});
 
 module.exports = videoRoute;
 

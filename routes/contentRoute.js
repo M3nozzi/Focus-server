@@ -10,6 +10,7 @@ contentRoute.get("/contents", (req, res, next) => {
         .find()
         .populate("playlist")
         .populate("users")
+        .populate("owner")
         .sort({ createdAt: -1 })
         .then((content) => res.json(content))
         .catch((error) => res.status(500).json(error));
@@ -25,6 +26,7 @@ contentRoute.get("/contents/:id", (req, res, next) => {
     Content.findById(req.params.id)
         .populate("playlist")
         .populate("users")
+        .populate("owner")
         .then((response) => {
             res.status(200).json(response);
 
@@ -49,7 +51,7 @@ contentRoute.post("/contents", (req, res, next) => {
         banner: req.body.banner,
         playlist: [],
         owner: req.user,
-        users: req.body.users
+        users: []
 
     })
         .then((response) => {

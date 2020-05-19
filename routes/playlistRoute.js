@@ -9,6 +9,7 @@ playlistRoute.get("/contents/:contentId/playlist/:playlistId", (req, res) => {
 
     Playlist.find(req.params.playlistId)
         .populate({path: 'content', select: _id})
+        .populate("videos")
         .sort({ createdAt: -1 })
         .then((thePlaylist) => res.json(thePlaylist))
         .catch((error) => res.status(500).json(error));
@@ -23,6 +24,7 @@ playlistRoute.post("/playlist", (req, res, next) => {
     playlistImage: req.body.playlistImage,
     playlistUrl: req.body.playlistUrl,
     owner: req.user._id,
+    video: req.body.video,
     content:req.body.contentId,
   })
         .then((response) => {

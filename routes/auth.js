@@ -12,10 +12,10 @@ const multer = require('multer');
 
 
 authRoutes.post("/signup", (req, res, next) => {
-  const { email, password, name} = req.body;
+  const { username, password, name} = req.body;
 
 
-  if (!email || !password) {
+  if (!username || !password) {
     res.status(400).json({ message: "Provide username and password" });
     return;
   }
@@ -28,7 +28,7 @@ authRoutes.post("/signup", (req, res, next) => {
     return;
   }
 
-  User.findOne({ email }, (err, foundUser) => {
+  User.findOne({ username }, (err, foundUser) => {
     if (err) {
       res.status(500).json({ message: "Username check went bad." });
       return;
@@ -43,7 +43,7 @@ authRoutes.post("/signup", (req, res, next) => {
     const hashPass = bcrypt.hashSync(password, salt);
 
     const aNewUser = new User({
-      username: email,
+      username: username,
       password: hashPass,
       name: name,
       path:process.env.DEFAULT_IMAGE,

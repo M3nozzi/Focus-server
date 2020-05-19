@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema(
     {
         name:String,
-        username: String,
-        password: String,
+        username: {type: String, require:true, unique:true},
+        password:{type:String,require:true},
         googleID: String,
         path: String,
         following: [{type: Schema.Types.ObjectId, ref:"Content"}],
