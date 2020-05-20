@@ -143,6 +143,7 @@ authRoutes.get("/loggedin", (req, res, next) => {
 
 // one way out to google 
 authRoutes.get(
+  // "/auth/google",
   "/auth/google",
   passport.authenticate("google", {
     scope: [
@@ -153,15 +154,39 @@ authRoutes.get(
 );
 
 // one way back from google
+
 authRoutes.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/login", 
-    session: false }),
+      successRedirect: "http://localhost:3000/main",
+      failureRedirect: "http://localhost:3000/" ,
+    }),
     function(req,res) {
-      var token = req.user.token;
-      res.redirect('http://localhost:3000?token=' + token);
+      //var token = req.user.token;
+      res.status(200).json({ message: 'Google auth done'});
     }
 );
+
+
+
+// authRoutes.get(
+//   "/auth/google/callback",
+//   passport.authenticate("google", {
+//     failureRedirect: "/login", 
+//     session: false }),
+//     function(req,res) {
+//       var token = req.user.token;
+//       res.redirect('http://localhost:3000?token=' + token);
+//     }
+// );
+
+
+// authRoutes.get("/auth/google/callback", passport.authenticate("google", {
+//   successRedirect: "http://localhost:3000/main",
+//   failureRedirect: "http://localhost:3000/" 
+// }), (req, res) => {
+//   res.status(200).json({ message: 'Google auth done'})
+// });
+
 
 module.exports = authRoutes;

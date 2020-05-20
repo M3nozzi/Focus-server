@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const User          = require('../models/User');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt        = require('bcryptjs'); 
@@ -51,11 +53,11 @@ passport.use(
   new GoogleStrategy({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback"
+      callbackURL: "http://localhost:5000/api/auth/google/callback"
     },
     (accessToken, refreshToken, profile, done) => {
      
-      console.log("Google account details:", profile);
+      //console.log("Google account details:", profile);
       let name = profile.given_name + ' ' + profile.family_name
       
       User.findOne({
@@ -72,7 +74,7 @@ passport.use(
             username: profile.email,
             googleID: profile.id,
             path: profile.picture,
-            token:accessToken,
+            //token:accessToken,
             })
             .then(newUser => {
               done(null, newUser);
