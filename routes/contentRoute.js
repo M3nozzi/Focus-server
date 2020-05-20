@@ -24,7 +24,7 @@ contentRoute.get("/contents/:id", (req, res, next) => {
         return;
     }
     Content.findById(req.params.id)
-        .populate("playlist")
+        .populate("playlist", {sort: {createdAt: -1}})
         .populate("users")
         .populate("owner")
         .then((response) => {

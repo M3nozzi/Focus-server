@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const playlistRoute = express.Router();
 const Playlist = require("../models/Playlist");
 const Content = require('../models/Content');
+const Videos = require('../models/Videos');
 
 
 playlistRoute.get("/contents/:contentId/playlist/:playlistId", (req, res) => {
@@ -67,6 +68,8 @@ playlistRoute.delete("/playlist/:id", (req, res, next) => {
     .catch((err) => {
       res.json(err);
     });
+
+
 });
 
 module.exports = playlistRoute;
