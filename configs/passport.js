@@ -85,3 +85,41 @@ passport.use(
     }
   )
 );
+
+
+
+// //FACEBOOK
+// passport.use(new FacebookStrategy({
+//   clientID: process.env.FACEBOOK_APP_ID,
+//   clientSecret: process.env.FACEBOOK_APP_SECRET,
+//   callbackURL: process.env.FACEBOOK_CALLBACK
+// },
+// function(accessToken, refreshToken, profile, done) {
+  
+// console.log("Facebook account details:", profile);
+
+  
+// User.findOne({
+//     facebookID: profile.id
+//   })
+//   .then(user => {
+//     if (user) {
+//       done(null, user);
+//       return;
+//     }
+
+//     User.create({
+//       name: profile.displayName,
+//       username: profile.email,
+//       facebookID: profile.id,
+//       path:process.env.DEFAULT_IMAGE,
+//       })
+//       .then(newUser => {
+//         done(null, newUser);
+//       })
+//       .catch(err => done(err)); // closes User.create()
+//   })
+//   .catch(err => done(err)); // closes User.findOne()
+// }
+// )
+// );
