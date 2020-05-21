@@ -167,26 +167,30 @@ authRoutes.get(
     }
 );
 
+// SOCIAL LOGIN FACEBOOK
 
+// one way out to facebook
+// router.get("/auth/facebook",
+//   passport.authenticate("facebook",
+//     {
+//       data: [
+//         {
+//           "permission": "public_profile",
+//           "status": "granted"
+//         }
+//       ]
+//     }));
 
-// authRoutes.get(
-//   "/auth/google/callback",
-//   passport.authenticate("google", {
-//     failureRedirect: "/login", 
-//     session: false }),
-//     function(req,res) {
-//       var token = req.user.token;
-//       res.redirect('http://localhost:3000?token=' + token);
-//     }
+//   // one way back from facebook
+// router.get("/auth/facebook/callback",
+//   passport.authenticate("facebook", {
+//     successRedirect: "http://localhost:3000/main",
+//     failureRedirect: "http://localhost:3000/"
+//   }),
 // );
 
 
-// authRoutes.get("/auth/google/callback", passport.authenticate("google", {
-//   successRedirect: "http://localhost:3000/main",
-//   failureRedirect: "http://localhost:3000/" 
-// }), (req, res) => {
-//   res.status(200).json({ message: 'Google auth done'})
-// });
+
 
 
 module.exports = authRoutes;
