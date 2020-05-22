@@ -10,11 +10,11 @@ cloudinary.config({
 
 let storage = cloudinaryStorage({
   cloudinary,
-  folder: "focus", // The name of the folder in cloudinary
+  folder: "focus", 
   allowedFormats: ["jpg", "png", "jpeg"],
-  // params: { resource_type: 'raw' }, => this is in case you want to upload other type of files, not just images
+  
   filename: function (req, res, cb) {
-    cb(null, res.originalname.split(".")[0]); // The file on cloudinary would have the same name as the original file name
+    cb(null, res.originalname.split(".")[0]); 
   },
 });
 

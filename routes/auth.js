@@ -58,16 +58,12 @@ authRoutes.post("/signup", (req, res, next) => {
         return;
       }
 
-      // Automatically log in user after sign up
-      // .login() here is actually predefined passport method
       req.login(aNewUser, (err) => {
         if (err) {
           res.status(500).json({ message: "Login after signup went bad." });
           return;
         }
 
-        // Send the user's information to the frontend
-        // We can use also: res.status(200).json(req.user);
         res.status(200).json(aNewUser);
       });
     });
@@ -77,7 +73,7 @@ authRoutes.post("/signup", (req, res, next) => {
 
 authRoutes.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, theUser, failureDetails) => {
-    console.log(theUser)
+  
     if (err) {
       res
         .status(500)
@@ -86,21 +82,18 @@ authRoutes.post("/login", (req, res, next) => {
     }
 
     if (!theUser) {
-      // "failureDetails" contains the error messages
-      // from our logic in "LocalStrategy" { message: '...' }.
+
       res.status(401).json(failureDetails);
       return;
     }
 
-    // save user in session
     req.login(theUser, (err) => {
       if (err) {
         res.status(500).json({ message: "Session save went bad." });
         return;
       }
 
-      // We are now logged in (that's why we can also send req.user)
-      res.status(200).json(theUser);
+       res.status(200).json(theUser);
     });
   })(req, res, next);
 });
@@ -108,31 +101,15 @@ authRoutes.post("/login", (req, res, next) => {
 
 
 authRoutes.get("/logout", (req, res, next) => {
-  // req.logout() is defined by passport
   req.logout();
   res.status(200).json({ message: "Log out success!" });
   res.redirect("/");
 });
 
 
-/*authRoutes.post('/upload', uploadCloud.single('imagePath'), (req, res) => {
-
-    const loggedUser = req.user;
-    loggedUser.imagePath = req.file;
-    
-    loggedUser
-        .save()
-        .then( () => {
-
-            res.status(200).json(req.file);
-        })
-        .catch(error => console.log(error));
-}) */
-
 
 authRoutes.get("/loggedin", (req, res, next) => {
-  // req.isAuthenticated() is defined by passport
-  if (req.isAuthenticated()) {
+   if (req.isAuthenticated()) {
     res.status(200).json(req.user);
     return;
   }
@@ -141,10 +118,8 @@ authRoutes.get("/loggedin", (req, res, next) => {
 
 //SOCIAL LOGIN GOOGLE
 
-// one way out to google 
 authRoutes.get(
-  // "/auth/google",
-  "/auth/google",
+   "/auth/google",
   passport.authenticate("google", {
     scope: [
       "https://www.googleapis.com/auth/userinfo.profile",
@@ -153,7 +128,7 @@ authRoutes.get(
   })
 );
 
-// one way back from google
+
 
 authRoutes.get(
   "/auth/google/callback",
@@ -162,35 +137,10 @@ authRoutes.get(
       failureRedirect: "http://localhost:3000/" ,
     }),
     function(req,res) {
-      //var token = req.user.token;
+  
       res.status(200).json({ message: 'Google auth done'});
     }
 );
-
-// SOCIAL LOGIN FACEBOOK
-
-// one way out to facebook
-// router.get("/auth/facebook",
-//   passport.authenticate("facebook",
-//     {
-//       data: [
-//         {
-//           "permission": "public_profile",
-//           "status": "granted"
-//         }
-//       ]
-//     }));
-
-//   // one way back from facebook
-// router.get("/auth/facebook/callback",
-//   passport.authenticate("facebook", {
-//     successRedirect: "http://localhost:3000/main",
-//     failureRedirect: "http://localhost:3000/"
-//   }),
-// );
-
-
-
 
 
 module.exports = authRoutes;
