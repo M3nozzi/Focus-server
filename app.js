@@ -85,5 +85,8 @@ app.use("/api", require("./routes/contentRoute"));
 app.use("/api", require("./routes/playlistRoute"));
 app.use("/api", require("./routes/videoRoute"));
 app.use("/api", require("./routes/followerRoute"));
+app.use((req, res, next) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
 
 module.exports = app;
