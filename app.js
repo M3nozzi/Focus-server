@@ -71,7 +71,7 @@ app.locals.title = 'Focus App Server - Study. Organize. Focus.';
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000"],
+    origin: process.env.CORS_ORIGIN,
   })
 );
 
@@ -86,7 +86,7 @@ app.use("/api", require("./routes/playlistRoute"));
 app.use("/api", require("./routes/videoRoute"));
 app.use("/api", require("./routes/followerRoute"));
 app.use((req, res, next) => {
-  res.sendFile(__dirname + "/public/index.html");
-});
+  res.sendFile(__dirname + "/public/index.html")
+})
 
 module.exports = app;

@@ -133,8 +133,8 @@ authRoutes.get(
 authRoutes.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-      successRedirect: "http://localhost:3000/main",
-      failureRedirect: "http://localhost:3000/" ,
+      successRedirect: "https://focusplay.herokuapp.com/main",
+      failureRedirect: "https://focusplay.herokuapp.com" ,
     }),
     function(req,res) {
   
