@@ -45,7 +45,7 @@ passport.use(new LocalStrategy((username, password, next) => {
 }));
 
 
-//GOOGLE
+//GOOGLE auth
 
 passport.use(
   new GoogleStrategy({
