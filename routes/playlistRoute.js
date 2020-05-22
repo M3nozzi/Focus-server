@@ -51,7 +51,7 @@ playlistRoute.post("/playlist", (req, res, next) => {
     });
 });
 
-// DELETE route => to delete a specific task
+// DELETE route 
 playlistRoute.delete("/playlist/:id", (req, res, next) => {
   
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -62,7 +62,7 @@ playlistRoute.delete("/playlist/:id", (req, res, next) => {
   Playlist.findByIdAndRemove(req.params.id)
     .then(() => {
       res.json({
-        message: `Task with ${req.params.id} is removed successfully.`,
+        message: `Playlist with ${req.params.id} is removed successfully.`,
       });
     })
     .catch((err) => {

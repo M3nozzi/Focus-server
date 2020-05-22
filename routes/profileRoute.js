@@ -35,9 +35,7 @@ profileRoute.put('/profile/:id', (req, res, next) => {
     User.findByIdAndUpdate( req.params.id, req.body, {new:true}
     ).then( (response) => {
       res.json(response);
-        // res.status(200).json({
-        //     message: 'User updated!'
-        // })
+     
     })
     .catch(error => res.status(500).json(error));
     
@@ -63,8 +61,7 @@ profileRoute.post("/upload", uploader.single("path"), (req, res, next) => {
       next(new Error("No file uploaded!"));
       return;
     }
-    // get secure_url from the file object and save it in the
-    // variable 'secure_url', but this can be any name, just make sure you remember to use the same in frontend
+ 
     res.json({
       secure_url: req.file.secure_url,
       originalName: req.file.originalname,
