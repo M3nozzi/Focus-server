@@ -1,6 +1,6 @@
 # Focus
 > Study. Organize. Focus.
-If you would like to know more about this project click on this [link](https://spotsport.herokuapp.com/).
+If you would like to know more about this project click on this [link](https://focusplay.herokuapp.com/).
 
 # About
 * It's a collaborative platform to keep your focus on studies without distractions. So you can watch videos with your study contents, without being distracted by other types of videos. You can also create a playlist and others users can enjoy it as well.
