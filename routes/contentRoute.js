@@ -5,14 +5,14 @@ const Content = require("../models/Content");
 const uploader = require("../configs/cloudinary");
 
 contentRoute.get("/contents", (req, res, next) => {
-
+    console.log(`server  no get --> ${res}`)
     Content
         .find()
         .populate("playlist")
         .populate("users")
         .populate("owner")
         .sort({ createdAt: -1 })
-        .then((content) => res.json(content))
+        .then((content) => { res.json(content).console.log(`server  then --> ${content}`)})
         .catch((error) => res.status(500).json(error));
 
 });
