@@ -5,7 +5,7 @@ const Content = require("../models/Content");
 const uploader = require("../configs/cloudinary");
 
 contentRoute.get("/contents", (req, res, next) => {
-    console.log(`server --> ${res}`)
+    console.log(`server  no get --> ${res}`)
     Content
         .find()
         .populate("playlist")
